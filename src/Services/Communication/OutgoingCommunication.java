@@ -47,22 +47,22 @@ public class OutgoingCommunication
             switch (response[0]) {
                 case "LOGIN": {
                     if (response[1].equals("NOUSER")) {
-                        Platform.runLater(() -> MethodHelper.ShowAlert((String)Constants.NOUSER_MESSAGE));
+                        Platform.runLater(() -> MethodHelper.ShowAlert(Constants.NOUSER_MESSAGE));
                         break;
                     }
-                    Platform.runLater(() -> MethodHelper.switchScene((String)response[1]));
+                    Platform.runLater(() -> MethodHelper.switchScene(response[1]));
                     break;
                 }
                 case "REPORT": {
-                    Platform.runLater(() -> QMS_AdminController.SetReport((String)response[1], (String)response[2]));
+                    Platform.runLater(() -> QMS_AdminController.SetReport(response[1], response[2]));
                     break;
                 }
                 case "NOPTIENTS": {
-                    Platform.runLater(() -> MethodHelper.ShowAlert((String)"\u05d0\u05d9\u05df \u05de\u05d8\u05d5\u05e4\u05dc\u05d9\u05dd \u05d1\u05ea\u05d5\u05e8"));
+                    Platform.runLater(() -> MethodHelper.ShowAlert("אין מטופלים בתור"));
                     break;
                 }
                 case "PATIENT_NUMBER": {
-                    Platform.runLater(() -> QMS_Pharm_NurseController.updatePatientlbl((String)response[1]));
+                    Platform.runLater(() -> QMS_Pharm_NurseController.updatePatientlbl(response[1]));
                 }
             }
             System.out.println(incomingCommand);
