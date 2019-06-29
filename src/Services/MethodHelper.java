@@ -1,5 +1,6 @@
 package Services;
 
+import Services.Communication.OutgoingCommunication;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
@@ -8,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 public class MethodHelper {
 
@@ -26,61 +28,55 @@ public class MethodHelper {
         alert.show();
     }
 
-    public static boolean usernamePasswordValidation(String username , String password)
-    {
-        if(username.equals("") || password.equals(""))
-            return true;
+    public static void SendMessageToServer(String message){
+        Preferences settingsPrefs = Preferences.userNodeForPackage(SettingsDialog.class);
 
-            return false;
+        new OutgoingCommunication(settingsPrefs.get(Constants.SERVER_IP,String.class.toString()),
+                Integer.parseInt(settingsPrefs.get(Constants.SERVER_PORT,String.class.toString())),
+                message).start();
     }
 
-    public static void switchScene(String clientType)
+    public static boolean usernamePasswordValidation(String username , String password)
+    {
+        return !(username.equals("") || password.equals(""));
+    }
+
+    public static void switchScene(Constants.eRoleTypes roleType)
     {
         String title = "";
         Stage stage =  Constants.stage;
         Parent root = null;
+
         try {
-
-            // scene.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-
-            switch(clientType) {
-                case Constants.ADMINROLE:
-                    Constants.roleType = Constants.ADMINROLE;
-                    root = FXMLLoader.load(MethodHelper.class.getResource("/View/Admin.fxml"));
-                    title = "הנהלה";
-                    break;
-                case Constants.PHARMROLE:
-                    Constants.roleType = Constants.PHARMROLE;
-                    root = FXMLLoader.load(MethodHelper.class.getResource("/View/Pharm_Nurse.fxml"));
-                    title = "בית מרקחת";
-
-                    break;
-                case Constants.NURSEROLE:
-                    Constants.roleType = Constants.NURSEROLE;
-                    root = FXMLLoader.load(MethodHelper.class.getResource("/View/Pharm_Nurse.fxml"));
-                    title = "חדר אחיות";
-
-                    break;
-                case Constants.LOGIN:
+            if (roleType == Constants.eRoleTypes.ADMINROLE) {
+                Constants.roleType = Constants.eRoleTypes.ADMINROLE.toString();
+                root = FXMLLoader.load(MethodHelper.class.getResource("/View/Admin.fxml"));
+                title = "הנהלה";
+                }
+                else if (roleType == Constants.eRoleTypes.PHARMROLE){
+                Constants.roleType = Constants.eRoleTypes.NURSEROLE.toString();
+                root = FXMLLoader.load(MethodHelper.class.getResource("/View/Pharm_Nurse.fxml"));
+                title = "בית מרקחת";
+                }
+                else if(roleType == Constants.eRoleTypes.NURSEROLE) {
+                Constants.roleType = Constants.eRoleTypes.NURSEROLE.toString();
+                root = FXMLLoader.load(MethodHelper.class.getResource("/View/Pharm_Nurse.fxml"));
+                title = "חדר אחיות";
+                }
+                else if (roleType == Constants.eRoleTypes.LOGIN){
                     Constants.roleType = "";
                     root = FXMLLoader.load(MethodHelper.class.getResource("/View/Login.fxml"));
                     title = "מסך התחברות";
-                    break;
-            }
-
+                }
 
             stage.setTitle(title);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-
+            }
+            catch (IOException e) {
+            //e.printStackTrace();
+            }
 
 
     }

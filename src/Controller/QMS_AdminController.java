@@ -30,7 +30,6 @@ public class QMS_AdminController {
     private Image imageLogo;
     Calendar calendar;
     String currentTime;
-    Preferences settingsPrefs;
     public void initialize(){
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             currentTime = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy").format(Calendar.getInstance().getTime());
@@ -44,21 +43,15 @@ public class QMS_AdminController {
         imageLogo = new Image(getClass().getResource("/logo.png").toString());
         imageViewLogo.setImage(imageLogo);
         calendar = Calendar.getInstance(TimeZone.getDefault());
-        settingsPrefs = Preferences.userNodeForPackage(SettingsDialog.class);
 
         s_lblPharmTotal = lblPharmTotal;
         s_lblNurseTotal = lblNurseTotal;
-
     }
 
     public void showReport()
     {
        //TODO: update label with last update time
-
-        new OutgoingCommunication(settingsPrefs.get(Constants.SERVER_IP,String.class.toString()),
-                Integer.parseInt(settingsPrefs.get(Constants.SERVER_PORT,String.class.toString())),
-                Constants.REPORT).start();
-
+        MethodHelper.SendMessageToServer(Constants.REPORT);
     }
 
     public static void SetReport(String totalPaharm , String totalNurse)
@@ -68,6 +61,6 @@ public class QMS_AdminController {
     }
     public void logout()
     {
-        MethodHelper.switchScene(Constants.LOGIN);
+        MethodHelper.switchScene(Constants.eRoleTypes.LOGIN);
     }
 }

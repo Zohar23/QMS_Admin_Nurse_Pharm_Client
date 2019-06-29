@@ -52,7 +52,7 @@ public class QMS_Pharm_NurseController {
         calendar = Calendar.getInstance(TimeZone.getDefault());
         settingsPrefs = Preferences.userNodeForPackage(SettingsDialog.class);
 
-        if(Constants.roleType.equals(Constants.PHARMROLE))
+        if(Constants.roleType.equals(Constants.eRoleTypes.PHARMROLE.toString()))
             lblNursePharmNum.setText("דלפק מספר:");
         else
             lblNursePharmNum.setText("חדר מספר:");
@@ -73,19 +73,17 @@ public class QMS_Pharm_NurseController {
        String nextType = "";
        String pharmNurseNum = txtPharmNurseNum.getText();
 
-       if(Constants.roleType.equals(Constants.NURSEROLE))
+       if(Constants.roleType.equals(Constants.eRoleTypes.NURSEROLE.toString()))
            nextType = Constants.NURSE_NEXT_PATIENT;
-       else   if(Constants.roleType.equals(Constants.PHARMROLE))
+       else   if(Constants.roleType.equals(Constants.eRoleTypes.PHARMROLE.toString()))
            nextType = Constants.PHARM_NEXT_PATIENT;
 
-        new OutgoingCommunication(settingsPrefs.get(Constants.SERVER_IP,String.class.toString()),
-                Integer.parseInt(settingsPrefs.get(Constants.SERVER_PORT,String.class.toString())),
-                nextType+" "+pharmNurseNum).start();
+        MethodHelper.SendMessageToServer(nextType+" "+pharmNurseNum);
     }
 
 
     public void logout()
     {
-        MethodHelper.switchScene(Constants.LOGIN);
+        MethodHelper.switchScene(Constants.eRoleTypes.LOGIN);
     }
 }

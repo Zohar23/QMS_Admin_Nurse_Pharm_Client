@@ -2,7 +2,33 @@ package Services;
 
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 public class Constants {
+
+    public enum eRoleTypes {
+        ADMINROLE("admin"),
+        PHARMROLE("pharm"),
+        NURSEROLE("nurse"),
+        LOGIN("");
+
+        private String value = "";
+
+        eRoleTypes(String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return the Enum representation for the given string.
+         * @throws IllegalArgumentException if unknown string.
+         */
+        public static eRoleTypes fromString(String s) throws IllegalArgumentException {
+            return Arrays.stream(eRoleTypes.values())
+                    .filter(v -> v.value.equals(s))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("unknown value: " + s));
+        }
+    }
 
     /*helper to switch screens*/
     public static Stage stage;
@@ -22,17 +48,10 @@ public class Constants {
     public final static String NOUSER = "NOUSER";
     public final static String NOPTIENTS = "NOPTIENTS";
 
-
     /*messages*/
     public static String LOGIN_FIELDS_VALIDATION = "שם המשתמש או הסיסמא חסרים";
     public static String NOUSER_MESSAGE = "פרטי המשתמש לא נכונים";
     public final static String NOPTIENTS_MESSAGE = "אין מטופלים בתור";
-
-    /*role types*/
-    public static final String ADMINROLE = "admin";
-    public static final String PHARMROLE = "pharm";
-    public static final String NURSEROLE = "nurse";
-
 
     /*Settings*/
     //the server ip

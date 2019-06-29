@@ -18,6 +18,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import javafx.application.Platform;
 
+import static Services.Constants.NOPTIENTS_MESSAGE;
+
 public class OutgoingCommunication
         extends Thread {
     String serverIP = "";
@@ -50,7 +52,7 @@ public class OutgoingCommunication
                         Platform.runLater(() -> MethodHelper.ShowAlert(Constants.NOUSER_MESSAGE));
                         break;
                     }
-                    Platform.runLater(() -> MethodHelper.switchScene(response[1]));
+                    Platform.runLater(() -> MethodHelper.switchScene(Constants.eRoleTypes.fromString(response[1])));
                     break;
                 }
                 case "REPORT": {
@@ -58,7 +60,7 @@ public class OutgoingCommunication
                     break;
                 }
                 case "NOPTIENTS": {
-                    Platform.runLater(() -> MethodHelper.ShowAlert("אין מטופלים בתור"));
+                    Platform.runLater(() -> MethodHelper.ShowAlert(NOPTIENTS_MESSAGE));
                     break;
                 }
                 case "PATIENT_NUMBER": {
