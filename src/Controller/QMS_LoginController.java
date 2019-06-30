@@ -57,17 +57,14 @@ public class QMS_LoginController {
     public void ShowSettings(){
         SettingsDialog.ShowSettingsDialog();
     }
+
     public void login()
     {
         /*fields validation*/
         if(MethodHelper.usernamePasswordValidation(txtUsername.getText(),txtPassword.getText()))
             MethodHelper.ShowAlert(Constants.LOGIN_FIELDS_VALIDATION);
         else{
-            //send request to server
-            new OutgoingCommunication(settingsPrefs.get(Constants.SERVER_IP,String.class.toString()),
-                    Integer.parseInt(settingsPrefs.get(Constants.SERVER_PORT,String.class.toString())),
-                    Constants.LOGIN+" "+txtUsername.getText()+" "+txtPassword.getText()).start();
-
+            MethodHelper.SendMessageToServer(Constants.LOGIN+" "+txtUsername.getText()+" "+txtPassword.getText());
         }
     }
 

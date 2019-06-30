@@ -27,7 +27,6 @@ public class OutgoingCommunication
     @Override
     public void run() {
         Socket client = null;
-
         try {
 
             //To Server
@@ -50,7 +49,7 @@ public class OutgoingCommunication
                         Platform.runLater(() -> MethodHelper.ShowAlert(Constants.NOUSER_MESSAGE));
                         break;
                     }
-                    Platform.runLater(() -> MethodHelper.switchScene(response[1]));
+                    Platform.runLater(() -> MethodHelper.switchScene(Constants.eRoleTypes.fromString(response[1])));
                     break;
                 }
                 case Constants.REPORT: {
