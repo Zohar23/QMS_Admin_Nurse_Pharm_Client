@@ -4,16 +4,8 @@ import Controller.QMS_AdminController;
 import Controller.QMS_Pharm_NurseController;
 import Services.Constants;
 import Services.MethodHelper;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
+
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import javafx.application.Platform;
@@ -23,6 +15,8 @@ public class OutgoingCommunication
     String serverIP = "";
     String message;
     int serverPort;
+    ObjectOutputStream toServer;
+    ObjectInputStream fromServer;
 
     public OutgoingCommunication(String serverIP, int serverPort, String message) {
         this.serverIP = serverIP;
@@ -33,35 +27,41 @@ public class OutgoingCommunication
     @Override
     public void run() {
         Socket client = null;
-        PrintWriter pwOut = null;
-        BufferedReader brIn = null;
+
         try {
+
+            //To Server
             InetAddress neighborAddress = InetAddress.getByName(this.serverIP);
             client = new Socket(neighborAddress, this.serverPort);
-            pwOut = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
-            brIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            pwOut.write(this.message + "\n");
-            pwOut.flush();
-            String incomingCommand = brIn.readLine();
+
+            // Create an output stream to the server
+            toServer = new ObjectOutputStream(client.getOutputStream());
+            fromServer = new ObjectInputStream(client.getInputStream());
+            toServer.writeUTF(this.message);
+            toServer.flush();
+
+
+            //From Server
+            String incomingCommand = fromServer.readUTF();
             String[] response = incomingCommand.split(" ");
             switch (response[0]) {
-                case "LOGIN": {
-                    if (response[1].equals("NOUSER")) {
+                case Constants.LOGIN: {
+                    if (response[1].equals(Constants.NOUSER)) {
                         Platform.runLater(() -> MethodHelper.ShowAlert(Constants.NOUSER_MESSAGE));
                         break;
                     }
                     Platform.runLater(() -> MethodHelper.switchScene(response[1]));
                     break;
                 }
-                case "REPORT": {
+                case Constants.REPORT: {
                     Platform.runLater(() -> QMS_AdminController.SetReport(response[1], response[2]));
                     break;
                 }
-                case "NOPTIENTS": {
+                case Constants.NOPTIENTS: {
                     Platform.runLater(() -> MethodHelper.ShowAlert("אין מטופלים בתור"));
                     break;
                 }
-                case "PATIENT_NUMBER": {
+                case Constants.PATIENT_NUMBER: {
                     Platform.runLater(() -> QMS_Pharm_NurseController.updatePatientlbl(response[1]));
                 }
             }
@@ -73,7 +73,9 @@ public class OutgoingCommunication
         try {
             if (client != null) {
                 client.close();
-                pwOut.close();
+
+                toServer.close();
+                fromServer.close();
             }
         }
         catch (IOException e) {
