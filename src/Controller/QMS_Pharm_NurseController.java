@@ -9,6 +9,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -28,6 +29,8 @@ public class QMS_Pharm_NurseController {
     private Label lblTime, lblNursePharmNum , lblNextPatient;
     @FXML
     private TextField txtPharmNurseNum;
+    @FXML
+    private Button btnSaveProviderNumber , btnNextPatient;
 
     private static Label s_lblNextPatient;
 
@@ -79,6 +82,38 @@ public class QMS_Pharm_NurseController {
            nextType = Constants.PHARM_NEXT_PATIENT;
 
         MethodHelper.SendMessageToServer(nextType+" "+pharmNurseNum);
+    }
+
+    public void saveProviderNumber()
+    {
+        /*check if current mode is edit mode*/
+        if(btnSaveProviderNumber.getText().equals(Constants.btnSaveProviderNumber_save))
+        {
+            /*check if the provider number field is correct*/
+            if(!txtPharmNurseNum.getText().equals("") && MethodHelper.isNumeric(txtPharmNurseNum.getText()) )
+            {
+                txtPharmNurseNum.setDisable(true);
+                btnSaveProviderNumber.setText(Constants.btnSaveProviderNumber_edit);
+                btnNextPatient.setDisable(false);
+            }
+            else{
+                if(Constants.roleType.equals(Constants.eRoleTypes.NURSEROLE.toString()))
+                    MethodHelper.ShowAlert(Constants.NONURSENUMBER);
+                else
+                    MethodHelper.ShowAlert(Constants.NOPHARMNUMBER);
+            }
+        }
+        /*check if current mode is saved mode*/
+        else if(btnSaveProviderNumber.getText().equals(Constants.btnSaveProviderNumber_edit))
+        {
+            txtPharmNurseNum.setDisable(false);
+            btnSaveProviderNumber.setText(Constants.btnSaveProviderNumber_save);
+            btnNextPatient.setDisable(true);
+        }
+
+
+
+
     }
 
 

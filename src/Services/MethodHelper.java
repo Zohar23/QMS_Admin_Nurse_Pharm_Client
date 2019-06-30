@@ -28,6 +28,15 @@ public class MethodHelper {
         alert.show();
     }
 
+    public static boolean isNumeric(String strNum) {
+        try {
+            double d = Integer.parseInt(strNum);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     public static void SendMessageToServer(String message){
         Preferences settingsPrefs = Preferences.userNodeForPackage(SettingsDialog.class);
 
@@ -38,7 +47,7 @@ public class MethodHelper {
 
     public static boolean usernamePasswordValidation(String username , String password)
     {
-        return !(username.equals("") || password.equals(""));
+        return (username.equals("") || password.equals(""));
     }
 
     public static void switchScene(Constants.eRoleTypes roleType)
@@ -54,7 +63,7 @@ public class MethodHelper {
                 title = "הנהלה";
                 }
                 else if (roleType == Constants.eRoleTypes.PHARMROLE){
-                Constants.roleType = Constants.eRoleTypes.NURSEROLE.toString();
+                Constants.roleType = Constants.eRoleTypes.PHARMROLE.toString();
                 root = FXMLLoader.load(MethodHelper.class.getResource("/View/Pharm_Nurse.fxml"));
                 title = "בית מרקחת";
                 }

@@ -53,6 +53,9 @@ public class Constants {
     public static String LOGIN_FIELDS_VALIDATION = "שם המשתמש או הסיסמא חסרים";
     public static String NOUSER_MESSAGE = "פרטי המשתמש לא נכונים";
     public final static String NOPTIENTS_MESSAGE = "אין מטופלים בתור";
+    public static String NONURSENUMBER = "מספר חדר לא תקין";
+    public static String NOPHARMNUMBER = "מספר דלפק לא תקין";
+
 
     /*Settings*/
     //the server ip
@@ -60,6 +63,12 @@ public class Constants {
 
     //the server port
     public static String SERVER_PORT = "ServerPort";
+
+    /*UI*/
+    public static String btnSaveProviderNumber_save = "שמור";
+    public static String btnSaveProviderNumber_edit = "עדכן";
+
+
 
 
 }
