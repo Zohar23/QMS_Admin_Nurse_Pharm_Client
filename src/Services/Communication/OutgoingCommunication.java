@@ -72,7 +72,6 @@ public class OutgoingCommunication
         try {
             if (client != null) {
                 client.close();
-
                 toServer.close();
                 fromServer.close();
             }

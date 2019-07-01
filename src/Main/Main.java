@@ -16,8 +16,9 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/View/Login.fxml"));
         primaryStage.setTitle("מסך התחברות");
         Scene scene = new Scene(root);
-       // scene.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        scene.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         primaryStage.setScene(scene);
+
         primaryStage.show();
     }
 

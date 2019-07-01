@@ -37,20 +37,32 @@ public class MethodHelper {
         return true;
     }
 
-    public static void SendMessageToServer(String message){
+    public static boolean SendMessageToServer(String message){
         Preferences settingsPrefs = Preferences.userNodeForPackage(SettingsDialog.class);
 
-        new OutgoingCommunication(settingsPrefs.get(Constants.SERVER_IP,String.class.toString()),
-                Integer.parseInt(settingsPrefs.get(Constants.SERVER_PORT,String.class.toString())),
-                message).start();
+        if(message.equals("")){
+            return false;
+        }
+
+        try {
+            new OutgoingCommunication(settingsPrefs.get(Constants.SERVER_IP, String.class.toString()),
+                    Integer.parseInt(settingsPrefs.get(Constants.SERVER_PORT, String.class.toString())),
+                    message).start();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     public static boolean usernamePasswordValidation(String username , String password)
     {
-        return (username.equals("") || password.equals(""));
+        return (!username.equals("") && !password.equals(""));
     }
 
-    public static void switchScene(Constants.eRoleTypes roleType)
+    public static boolean switchScene(Constants.eRoleTypes roleType)
     {
         String title = "";
         Stage stage =  Constants.stage;
@@ -73,9 +85,9 @@ public class MethodHelper {
                 title = "חדר אחיות";
                 }
                 else if (roleType == Constants.eRoleTypes.LOGIN){
-                    Constants.roleType = "";
-                    root = FXMLLoader.load(MethodHelper.class.getResource("/View/Login.fxml"));
-                    title = "מסך התחברות";
+                Constants.roleType = "";
+                root = FXMLLoader.load(MethodHelper.class.getResource("/View/Login.fxml"));
+                title = "מסך התחברות";
                 }
 
             stage.setTitle(title);
@@ -84,9 +96,10 @@ public class MethodHelper {
             stage.show();
             }
             catch (IOException e) {
-            //e.printStackTrace();
+                e.printStackTrace();
+                return false;
             }
 
-
+            return true;
     }
 }
