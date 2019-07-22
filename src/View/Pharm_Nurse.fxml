@@ -5,17 +5,24 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.QMS_Pharm_NurseController">
     <children>
         <Label fx:id="lblTime" layoutX="20.0" layoutY="11.0" text="HH:mm:ss dd/MM/yyyy" />
         <ImageView fx:id="imageViewLogo" fitHeight="104.0" fitWidth="104.0" layoutX="292.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
         <Button fx:id="btnLogout" layoutX="14.0" layoutY="43.0" mnemonicParsing="false" onAction="#logout" text="התנתק" />
-      <Button fx:id="btnNextPatient" disable="true" layoutX="164.0" layoutY="181.0" mnemonicParsing="false" onAction="#NextPatient" text="מטופל הבא" />
-      <Label fx:id="lblNursePharmNum" layoutX="292.0" layoutY="94.0" text="מספר חדר" />
-      <TextField fx:id="txtPharmNurseNum" layoutX="205.0" layoutY="88.0" prefHeight="39.0" prefWidth="98.0" />
-      <Label layoutX="280.0" layoutY="336.0" text="המטופל הבא:" />
-      <Label fx:id="lblNextPatient" layoutX="221.0" layoutY="336.0" text="_" />
-      <Button fx:id="btnSaveProviderNumber" layoutX="105.0" layoutY="88.0" mnemonicParsing="false" onAction="#saveProviderNumber" text="שמור" />
+      <Button fx:id="btnNextPatient" disable="true" layoutX="90.0" layoutY="185.0" mnemonicParsing="false" onAction="#NextPatient" prefHeight="55.0" prefWidth="215.0" text="מטופל הבא" />
+      <Label fx:id="lblNursePharmNum" layoutX="333.0" layoutY="91.0" text="מספר חדר" />
+      <TextField fx:id="txtPharmNurseNum" layoutX="227.0" layoutY="88.0" prefHeight="25.0" prefWidth="98.0" />
+      <Label layoutX="280.0" layoutY="336.0" text="המטופל הבא:">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="lblNextPatient" layoutX="221.0" layoutY="336.0" text="_">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button fx:id="btnSaveProviderNumber" layoutX="173.0" layoutY="88.0" mnemonicParsing="false" onAction="#saveProviderNumber" text="שמור" />
     </children>
 </Pane>

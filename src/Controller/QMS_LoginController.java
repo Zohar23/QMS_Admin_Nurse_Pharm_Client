@@ -61,9 +61,9 @@ public class QMS_LoginController {
     public void login()
     {
         /*fields validation*/
-        if(MethodHelper.usernamePasswordValidation(txtUsername.getText(),txtPassword.getText()))
+        if(!MethodHelper.usernamePasswordValidation(txtUsername.getText(),txtPassword.getText()))
             MethodHelper.ShowAlert(Constants.LOGIN_FIELDS_VALIDATION);
-        else{
+        else {
             MethodHelper.SendMessageToServer(Constants.LOGIN+" "+txtUsername.getText()+" "+txtPassword.getText());
         }
     }
